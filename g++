@@ -1,0 +1,83 @@
+#!/usr/bin/env python
+
+import subprocess
+import sys
+import tempfile
+import json
+import os
+
+opt_sep = ":"
+
+# def find_real_compiler():
+#     found_wrapper = False
+#     compiler_prefix = ""
+#     for path in os.environ["PATH"].split(":"):
+#         if found_wrapper:
+#             if os.path.exists(path + os.sep + sys.argv[0]):
+#                 print(f"found compiler in {path}")
+#                 compiler_prefix = os.path.abspath(path)
+#                 break
+#         if os.path.abspath(os.getcwd()) == os.path.abspath(path):
+#             print(f"found wrapper in {path}")
+#             found_wrapper = True
+#             continue
+
+#     return compiler_prefix
+
+compiler_name = os.path.basename(sys.argv[0])
+
+def find_real_compiler():
+    found_wrapper = False
+    compiler_prefix = ""
+    for path in os.environ["PATH"].split(":")[1:]:
+        #print(f"looking for {compiler_name} in {path}")
+        if os.path.exists(path + os.sep + compiler_name):
+            #print(f"found compiler in {path}")
+            compiler_prefix = os.path.abspath(path)
+            break
+
+    return compiler_prefix
+
+def compile():
+    #print(f"compiler prefix {compiler_prefix}")
+    completed = subprocess.run(
+        [ compiler_prefix + os.sep + compiler_name ] + sys.argv[1:],
+    )
+    return completed.returncode
+
+def get_filename():
+    suffixes = ["cc", "cpp", "c"]
+    filename = ""
+    for a in sys.argv[1:]:
+        for suffix in suffixes:
+            if a.lower().endswith(suffix):
+                filename = a
+                break
+
+    return filename
+
+if __name__ == "__main__":
+    compiler_prefix = find_real_compiler()
+
+    if not compiler_prefix:
+        #print("compiler prefix isn't set")
+        exit(2)
+
+    rc = compile()
+
+    filename = get_filename()
+
+    if filename:
+        command = {
+            "directory": os.getcwd(),
+            "arguments": [ compiler_prefix + os.sep + compiler_name ] + sys.argv[1:],
+            "file": filename
+        }
+
+        temp_prefix = os.environ.get("COMPDB_PREFIX", "comp_")
+        with tempfile.NamedTemporaryFile(mode="w", prefix=temp_prefix, delete=False) as temp:
+            #print(f"saving to {temp.name}")
+            json.dump([command], temp)
+
+    exit(rc)
+

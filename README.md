@@ -1,3 +1,6 @@
+### 1-sentence Pitch
+
+A non-dependency python-based wrapper around g++/gcc for generating `compile_commands.json` for c/c++ projects
 
 ### How to Use
 

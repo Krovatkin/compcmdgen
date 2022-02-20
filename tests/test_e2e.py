@@ -12,6 +12,8 @@ def test_basic():
     path_to_gpp = subprocess.check_output(["which", "g++"]).decode("utf-8")
     if os.getcwd() + os.sep + "g++" != path_to_gpp.strip():
         os.environ["PATH"] = f"{os.getcwd()}:{os.environ['PATH']}"
+    print(os.environ["PATH"])
+    rc = subprocess.run(["which", "g++"], env=environ)
     rc = subprocess.run(["g++", "tests/cpp/main.cpp"], env=environ)
     assert rc.returncode == 0
     temp = tempfile.NamedTemporaryFile(mode="w")

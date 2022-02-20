@@ -6,8 +6,6 @@ import tempfile
 import stat
 import sys
 
-
-
 def test_basic():
     environ["PATH"] = f"{os.getcwd()}:{environ['PATH']}"
     st = os.stat('g++')
@@ -29,4 +27,5 @@ def test_basic():
     sys.path.append(".")
     import merge
     merge.merge()
+    assert(os.path.exists("compile_commands.json"))
     

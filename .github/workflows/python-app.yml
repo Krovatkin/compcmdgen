@@ -22,6 +22,9 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt install -y build-essential
+        python -m pip install --upgrade pip
+        pip install pytest
     - name: Compile a cpp file
       run: |
         g++ tests/cpp/main.cpp
+        pytest -s

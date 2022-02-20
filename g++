@@ -30,9 +30,9 @@ def find_real_compiler():
     found_wrapper = False
     compiler_prefix = ""
     for path in os.environ["PATH"].split(":")[1:]:
-        print(f"looking for {compiler_name} in {path}")
+        #print(f"looking for {compiler_name} in {path}")
         if os.path.exists(path + os.sep + compiler_name):
-            print(f"found compiler in {path}")
+            #print(f"found compiler in {path}")
             compiler_prefix = os.path.abspath(path)
             break
 

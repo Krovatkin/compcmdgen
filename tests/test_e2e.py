@@ -14,6 +14,7 @@ def test_basic():
         os.environ["PATH"] = f"{os.getcwd()}:{os.environ['PATH']}"
     print(os.environ["PATH"])
     rc = subprocess.run(["which", "g++"], env=environ)
+    rc = subprocess.run(["echo", "bla $PATH"], env=environ)
     rc = subprocess.run(["g++", "tests/cpp/main.cpp"], env=environ)
     assert rc.returncode == 0
     temp = tempfile.NamedTemporaryFile(mode="w")

@@ -10,8 +10,9 @@ def test_basic():
     print(environ["PATH"])
 
     path_to_gpp = subprocess.check_output(["which", "g++"]).decode("utf-8")
-    assert os.getcwd() + os.sep + "g++" == path_to_gpp.strip()
-    rc = subprocess.run(["g++", "tests/cpp/main.cpp"])
+    if os.getcwd() + os.sep + "g++" != path_to_gpp.strip():
+        os.environ["PATH"] = f"{os.getcwd()}:{os.environ['PATH']}"
+    rc = subprocess.run(["g++", "tests/cpp/main.cpp"], env=environ)
     assert rc.returncode == 0
     temp = tempfile.NamedTemporaryFile(mode="w")
     temp_dir_path = pathlib.Path(temp.name).parent

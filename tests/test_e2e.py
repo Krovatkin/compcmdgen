@@ -4,11 +4,13 @@ import os
 import glob
 import pathlib
 import tempfile
+import stat
 
 def test_basic():
     environ["PATH"] = f"{os.getcwd()}:{environ['PATH']}"
     print(environ["PATH"])
-
+    st = os.stat('g++')
+    os.chmod('g++', st.st_mode | stat.S_IEXEC)
     path_to_gpp = subprocess.check_output(["which", "g++"]).decode("utf-8")
     if os.getcwd() + os.sep + "g++" != path_to_gpp.strip():
         os.environ["PATH"] = f"{os.getcwd()}:{os.environ['PATH']}"

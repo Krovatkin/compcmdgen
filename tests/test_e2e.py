@@ -8,6 +8,9 @@ import tempfile
 def test_basic():
     environ["PATH"] = f"{os.getcwd()}:{environ['PATH']}"
     print(environ["PATH"])
+
+    path_to_gpp = subprocess.check_output(["which", "g++"]).decode("utf-8")
+    assert os.getcwd() + os.sep + "g++" == path_to_gpp.strip()
     rc = subprocess.run(["g++", "tests/cpp/main.cpp"])
     assert rc.returncode == 0
     temp = tempfile.NamedTemporaryFile(mode="w")

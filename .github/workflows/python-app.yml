@@ -1,0 +1,27 @@
+# This workflow will install Python and CPP dependencies, run tests
+
+name: E2E test
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        sudo apt install -y build-essential
+    - name: Compile a cpp file
+      run: |
+        g++ tests/cpp/main.cpp

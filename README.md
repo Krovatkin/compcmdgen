@@ -5,6 +5,7 @@ A non-dependency python-based wrapper around g++/gcc for generating `compile_com
 ### How to Use
 
 * Prepend the path to this folder to `$PATH`
+* Set executable permissions on `g++` and `gcc` i.e. `chmod u+x g++`
 * Each compile command will generate its own command file with the default prefix "comp_"
 * Change the default prefix by setting `COMPDB_PREFIX` to `custom_prefix_`
 * Compile a project w/ `make`. Caveat if a compiler is referred to a full path it won't work

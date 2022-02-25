@@ -15,7 +15,7 @@ def compile():
     os.environ["PATH"] = os.environ["PATH"][1:]
     completed = subprocess.run(
         [compiler_name] + sys.argv[1:],
-        env = os.environ
+        env=os.environ
     )
     return completed.returncode
 

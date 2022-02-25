@@ -4,7 +4,7 @@ A non-dependency python-based wrapper around g++/gcc for generating `compile_com
 
 ### How to Use
 
-* Prepend the path to this folder to `$PATH`. **Note**, these wrappers do **not** compose well with other wrappers such as `ccache`. You would need to remove `ccache` from your path while using the wrappers from this project.
+* Prepend the path to this folder to `$PATH`. **Note**, the path to these wrappers needs to be the first item in `$PATH`. This approach also composes nicely with other wrappers such as `ccache`
 * Set executable permissions on `g++` and `gcc` i.e. `chmod u+x g++`
 * Each compile command will generate its own command file with the default prefix "comp_"
 * Change the default prefix by setting `COMPDB_PREFIX` to `custom_prefix_`

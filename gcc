@@ -6,43 +6,16 @@ import tempfile
 import json
 import os
 
+
 opt_sep = ":"
-
-# def find_real_compiler():
-#     found_wrapper = False
-#     compiler_prefix = ""
-#     for path in os.environ["PATH"].split(":"):
-#         if found_wrapper:
-#             if os.path.exists(path + os.sep + sys.argv[0]):
-#                 print(f"found compiler in {path}")
-#                 compiler_prefix = os.path.abspath(path)
-#                 break
-#         if os.path.abspath(os.getcwd()) == os.path.abspath(path):
-#             print(f"found wrapper in {path}")
-#             found_wrapper = True
-#             continue
-
-#     return compiler_prefix
-
 compiler_name = os.path.basename(sys.argv[0])
 
 
-def find_real_compiler():
-    compiler_prefix = ""
-    for path in os.environ["PATH"].split(":")[1:]:
-        # print(f"looking for {compiler_name} in {path}")
-        if os.path.exists(path + os.sep + compiler_name):
-            # print(f"found compiler in {path}")
-            compiler_prefix = os.path.abspath(path)
-            break
-
-    return compiler_prefix
-
-
 def compile():
-    # print(f"compiler prefix {compiler_prefix}")
+    os.environ["PATH"] = os.environ["PATH"][1:]
     completed = subprocess.run(
-        [compiler_prefix + os.sep + compiler_name] + sys.argv[1:],
+        [compiler_name] + sys.argv[1:],
+        env = os.environ
     )
     return completed.returncode
 
@@ -60,12 +33,6 @@ def get_filename():
 
 
 if __name__ == "__main__":
-    compiler_prefix = find_real_compiler()
-
-    if not compiler_prefix:
-        # print("compiler prefix isn't set")
-        exit(2)
-
     rc = compile()
 
     filename = get_filename()
@@ -73,7 +40,7 @@ if __name__ == "__main__":
     if filename:
         command = {
             "directory": os.getcwd(),
-            "arguments": ([compiler_prefix + os.sep + compiler_name] + sys.argv[1:]),  # noqa: E501
+            "arguments": ([compiler_name] + sys.argv[1:]),  # noqa: E501
             "file": filename
         }
 

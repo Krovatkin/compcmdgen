@@ -1,15 +1,15 @@
 import shutil
 
-compilers = [
+compilers = (
     ("g++", (7, 11)),
     ("gcc", (7, 11)),
     ("clang", (7, 11)),
     ("clang++", (7, 11)),
-    ("g++", None)
-    ("gcc", None)
-    ("clang", None)
-    ("clang++", None)
-]
+    ("g++", None),
+    ("gcc", None),
+    ("clang", None),
+    ("clang++", None),
+)
 
 for compiler in compilers:
 
